@@ -103,18 +103,21 @@ function SectionHeader({
 
 function App() {
   const [submitted, setSubmitted] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const closeMenu = () => setMenuOpen(false);
 
   return (
     <div className="min-h-screen bg-cream text-stone-900">
       <header className="fixed left-0 right-0 top-0 z-50 border-b border-white/20 bg-forest-900/90 backdrop-blur-xl">
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
-          <a href="#home" className="flex items-center gap-3 text-white">
-            <span className="grid h-11 w-11 place-items-center rounded-full border border-gold/60 bg-white/10">
-              <LeafIcon className="h-6 w-6 text-gold" />
+          <a href="#home" className="flex min-w-0 items-center gap-3 text-white" onClick={closeMenu}>
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-gold/60 bg-white/10 sm:h-11 sm:w-11">
+              <LeafIcon className="h-5 w-5 text-gold sm:h-6 sm:w-6" />
             </span>
-            <span className="leading-tight">
+            <span className="min-w-0 leading-tight">
               <span className="block font-display text-sm font-extrabold uppercase tracking-[0.18em]">Rwandaro</span>
-              <span className="block text-xs text-cream/75">Coffee Farmers Cooperative Ltd.</span>
+              <span className="block max-w-[8.5rem] truncate text-xs text-cream/75 sm:max-w-none">Coffee Farmers Cooperative Ltd.</span>
             </span>
           </a>
           <div className="hidden items-center gap-7 lg:flex">
@@ -124,17 +127,38 @@ function App() {
               </a>
             ))}
           </div>
-          <a
-            href="#contact"
-            className="rounded-full bg-gold px-4 py-3 text-sm font-bold text-forest-900 shadow-lg shadow-black/10 transition hover:-translate-y-0.5 hover:bg-oat md:px-5"
-          >
-            Inquiry
-          </a>
+          <div className="flex shrink-0 items-center gap-2">
+            <a
+              href="#contact"
+              onClick={closeMenu}
+              className="rounded-full bg-gold px-4 py-3 text-sm font-bold text-forest-900 shadow-lg shadow-black/10 transition hover:-translate-y-0.5 hover:bg-oat md:px-5"
+            >
+              Inquiry
+            </a>
+            <button
+              type="button"
+              className="grid h-11 w-11 place-items-center rounded-full border border-white/20 bg-white/10 text-white transition hover:bg-white/15 lg:hidden"
+              aria-label="Toggle navigation menu"
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen((open) => !open)}
+            >
+              <span className="relative h-4 w-5">
+                <span className={`absolute left-0 h-0.5 w-5 rounded-full bg-current transition ${menuOpen ? 'top-2 rotate-45' : 'top-0'}`} />
+                <span className={`absolute left-0 top-2 h-0.5 w-5 rounded-full bg-current transition ${menuOpen ? 'opacity-0' : 'opacity-100'}`} />
+                <span className={`absolute left-0 h-0.5 w-5 rounded-full bg-current transition ${menuOpen ? 'top-2 -rotate-45' : 'top-4'}`} />
+              </span>
+            </button>
+          </div>
         </nav>
-        <div className="border-t border-white/10 lg:hidden">
-          <div className="mx-auto flex max-w-7xl gap-5 overflow-x-auto px-5 py-3">
+        <div className={`${menuOpen ? 'block' : 'hidden'} border-t border-white/10 bg-forest-900/95 shadow-2xl lg:hidden`}>
+          <div className="mx-auto grid max-w-7xl gap-1 px-5 py-4">
             {navItems.map((item) => (
-              <a key={item} href={`#${item.toLowerCase()}`} className="shrink-0 text-sm font-semibold text-cream/85 transition hover:text-gold">
+              <a
+                key={item}
+                href={`#${item.toLowerCase()}`}
+                onClick={closeMenu}
+                className="rounded-2xl px-4 py-3 text-sm font-semibold text-cream/85 transition hover:bg-white/10 hover:text-gold"
+              >
                 {item}
               </a>
             ))}
@@ -143,25 +167,25 @@ function App() {
       </header>
 
       <main>
-        <section id="home" className="relative isolate min-h-screen overflow-hidden bg-hero-farm bg-cover bg-center pt-28 text-white">
+        <section id="home" className="relative isolate min-h-[92svh] overflow-hidden bg-hero-farm bg-cover bg-center pt-24 text-white md:min-h-screen md:pt-28">
           <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_18%,rgba(201,155,74,.35),transparent_28%),radial-gradient(circle_at_78%_12%,rgba(255,255,255,.16),transparent_22%)]" />
-          <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 py-20 md:min-h-[calc(100vh-7rem)] lg:grid-cols-[1.05fr_.95fr] lg:px-8">
+          <div className="mx-auto grid max-w-7xl items-center gap-8 px-5 py-12 sm:py-16 md:min-h-[calc(100vh-7rem)] md:gap-12 md:py-20 lg:grid-cols-[1.05fr_.95fr] lg:px-8">
             <div>
-              <p className="mb-5 inline-flex rounded-full border border-white/25 bg-white/10 px-4 py-2 text-sm font-semibold text-cream backdrop-blur">
+              <p className="mb-4 inline-flex max-w-[18rem] rounded-full border border-white/25 bg-white/10 px-4 py-2 text-xs font-semibold leading-5 text-cream backdrop-blur sm:max-w-none sm:text-sm md:mb-5">
                 Premium Ugandan coffee and vanilla for export buyers
               </p>
-              <h1 className="max-w-4xl font-display text-5xl font-extrabold leading-[1.02] md:text-7xl">
+              <h1 className="max-w-4xl font-display text-4xl font-extrabold leading-[1.06] sm:text-5xl md:text-7xl md:leading-[1.02]">
                 High quality coffee and vanilla from South Western Uganda.
               </h1>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-cream/90 md:text-xl">
+              <p className="mt-5 max-w-xl text-base leading-7 text-cream/90 sm:text-lg md:mt-6 md:max-w-2xl md:text-xl md:leading-8">
                 Rwandaro Coffee Farmers Cooperative Ltd connects 1,740 farming families to quality-focused processing,
                 reliable bulking, and international market opportunities.
               </p>
-              <div className="mt-9 flex flex-col gap-4 sm:flex-row">
-                <a href="#products" className="rounded-full bg-gold px-7 py-4 text-center font-bold text-forest-900 shadow-soft transition hover:-translate-y-1 hover:bg-oat">
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row md:mt-9 md:gap-4">
+                <a href="#products" className="rounded-full bg-gold px-6 py-3.5 text-center font-bold text-forest-900 shadow-soft transition hover:-translate-y-1 hover:bg-oat md:px-7 md:py-4">
                   Explore products
                 </a>
-                <a href="#contact" className="rounded-full border border-white/40 bg-white/10 px-7 py-4 text-center font-bold text-white backdrop-blur transition hover:-translate-y-1 hover:bg-white/20">
+                <a href="#contact" className="rounded-full border border-white/40 bg-white/10 px-6 py-3.5 text-center font-bold text-white backdrop-blur transition hover:-translate-y-1 hover:bg-white/20 md:px-7 md:py-4">
                   Request export details
                 </a>
               </div>
@@ -384,10 +408,11 @@ function App() {
 
       <a
         href="https://wa.me/256772439958"
-        className="fixed bottom-5 right-5 z-50 rounded-full bg-[#25D366] px-5 py-4 font-bold text-white shadow-soft transition hover:-translate-y-1"
+        className="fixed bottom-3 right-3 z-50 rounded-full bg-[#25D366] px-4 py-3 text-sm font-bold text-white shadow-soft transition hover:-translate-y-1 sm:bottom-5 sm:right-5 sm:px-5 sm:py-4"
         aria-label="Contact Rwandaro Coffee on WhatsApp"
       >
-        WhatsApp
+        <span className="sm:hidden">WA</span>
+        <span className="hidden sm:inline">WhatsApp</span>
       </a>
     </div>
   );
